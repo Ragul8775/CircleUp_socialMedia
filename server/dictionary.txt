@@ -1,0 +1,42 @@
+This code sets up an Express.js server with various middleware and configurations. Let's go through the code step by step:
+
+1. Importing required modules:
+   - Express.js: `express`
+   - Body parsing: `body-parser`
+   - MongoDB and Mongoose: `mongoose`
+   - Cross-Origin Resource Sharing: `cors`
+   - Environment variables: `dotenv`
+   - File handling: `multer`
+   - Security: `helmet`
+   - Logging: `morgan`
+   - Path and URL utilities: `path`, `dirname`, `fileURLToPath`
+
+2. Configuration and initialization:
+   - `dotenv.config()`: Loads environment variables from a `.env` file into `process.env`.
+   - `const app = express()`: Creates an instance of the Express application.
+
+3. Middleware setup:
+   - `app.use(express.json())`: Parses incoming requests with JSON payloads.
+   - `app.use(helmet())`: Adds security headers to the responses.
+   - `app.use(helmet.crossOriginResourcePolicy({policy: "cross-origin"}))`: Sets the Cross-Origin Resource Policy (CORP) to "cross-origin".
+   - `app.use(morgan("common"))`: Logs HTTP requests in the "common" format.
+   - `app.use(bodyParser.json({limit: "30mb", extended: true}))`: Parses incoming requests with JSON payloads up to 30MB.
+   - `app.use(bodyParser.urlencoded({limit: "30mb", extended: true}))`: Parses incoming requests with URL-encoded payloads up to 30MB.
+   - `app.use(cors())`: Enables Cross-Origin Resource Sharing (CORS) for the server.
+   - `app.use("/assets", express.static(path.join(__dirname, 'public/assets')))`: Serves static files from the "public/assets" directory under the "/assets" route.
+
+4. File storage setup:
+   - `const storage = multer.diskStorage({ ... })`: Defines the destination and filename for uploaded files.
+   - `const upload = multer({storage})`: Configures the multer middleware to handle file uploads.
+
+5. Routes:
+   - `app.post("/auth/register", upload.single("picture"), register)`: Defines a route for user registration. It uses the `upload.single` middleware to handle a single file upload with the field name "picture" and calls the `register` function from the imported "auth.js" controller.
+
+6. Additional routes:
+   - `app.use("/auth", authRoutes)`: Mounts the "/auth" routes defined in the "auth.js" router.
+
+7. Mongoose setup and server start:
+   - `mongoose.connect(process.env.MONGO_URL, { ... })`: Connects to the MongoDB database using the provided connection options.
+   - `app.listen(PORT, () => console.log(`Server Port: ${PORT}`))`: Starts the server and listens on the specified `PORT`. It logs a message indicating the server port upon successful connection.
+
+Overall, this code sets up an Express server with various middleware, file storage configuration, and routes for user registration and authentication.

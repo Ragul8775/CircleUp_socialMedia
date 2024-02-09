@@ -1,0 +1,10 @@
+{
+    "git.enabled": false,
+    "git.pullTags": true,
+    "git.enableStatusBarSync": false,
+    "git.detectSubmodules": false,
+    "git.decorations.enabled": false,
+    "git.confirmSync": false,
+    "git.confirmEmptyCommits": false,
+    "git.confirmForcePush": false
+}
